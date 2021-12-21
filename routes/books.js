@@ -115,7 +115,7 @@ router
                 if (fileCover) book.fileCover = fileCover;
                 if (fileName) book.fileName = fileName;
                 if (req.file?.filename) book.fileBook = req.file.filename;
-                res.render("pages/books/index", { title: "Books", books });
+                res.redirect("/books");
             } else {
                 res.render("pages/404");
             }
