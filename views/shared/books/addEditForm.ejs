@@ -1,0 +1,31 @@
+<form method="POST" enctype="multipart/form-data">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <input type="text" class="form-control" id="title" name="title" value="<%= book.title %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="description" class="form-label">Description</label>
+        <textarea class="form-control" id="description" name="description" rows="4" required><%= book.description %></textarea>
+    </div>
+    <div class="mb-3">
+        <label for="authors" class="form-label">Authors</label>
+        <input type="text" class="form-control" id="authors" name="authors" value="<%= book.authors %>" required>
+    </div>
+    <div class="mb-3">
+        <label for="favourite" class="form-label">Favourite</label>
+        <input type="text" class="form-control" id="favourite" name="favourite" value="<%= book.favourite %>">
+    </div>
+    <div class="mb-3">
+        <label for="fileCover" class="form-label">Cover</label>
+        <input type="text" class="form-control" id="fileCover" name="fileCover" value="<%= book.fileCover %>">
+    </div>
+    <div class="mb-3">
+        <label for="fileName" class="form-label">Name</label>
+        <input type="text" class="form-control" id="fileName" name="fileName" value="<%= book.fileName %>">
+    </div>
+    <div class="mb-4">
+        <label for="fileBook" class="form-label">Image</label>
+        <input type="file" class="form-control" id="fileBook" name="fileBook" value="<%= book.fileBook %>">
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
