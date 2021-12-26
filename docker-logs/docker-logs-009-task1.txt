@@ -1,0 +1,81 @@
+D:\node-netology\ndse9-library>docker pull busybox
+Using default tag: latest
+latest: Pulling from library/busybox
+3cb635b06aa2: Pull complete
+Digest: sha256:b5cfd4befc119a590ca1a81d6bb0fa1fb19f1fbebd0397f25fae164abe1e8a6a
+Status: Downloaded newer image for busybox:latest
+docker.io/library/busybox:latest
+
+D:\node-netology\ndse9-library>docker run --name pinger busybox ping -c 7 netology.ru
+PING netology.ru (104.22.40.171): 56 data bytes
+64 bytes from 104.22.40.171: seq=0 ttl=37 time=19.514 ms
+64 bytes from 104.22.40.171: seq=1 ttl=37 time=21.562 ms
+64 bytes from 104.22.40.171: seq=2 ttl=37 time=21.613 ms
+64 bytes from 104.22.40.171: seq=3 ttl=37 time=21.712 ms
+64 bytes from 104.22.40.171: seq=4 ttl=37 time=21.577 ms
+64 bytes from 104.22.40.171: seq=5 ttl=37 time=19.869 ms
+64 bytes from 104.22.40.171: seq=6 ttl=37 time=20.383 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 19.514/20.890/21.712 ms
+
+D:\node-netology\ndse9-library>docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED          STATUS                      PORTS     NAMES
+49e5813f17be   busybox   "ping -c 7 netology.…"   40 seconds ago   Exited (0) 31 seconds ago             pinger
+
+D:\node-netology\ndse9-library>docker logs pinger
+PING netology.ru (104.22.40.171): 56 data bytes
+64 bytes from 104.22.40.171: seq=0 ttl=37 time=19.514 ms
+64 bytes from 104.22.40.171: seq=1 ttl=37 time=21.562 ms
+64 bytes from 104.22.40.171: seq=2 ttl=37 time=21.613 ms
+64 bytes from 104.22.40.171: seq=3 ttl=37 time=21.712 ms
+64 bytes from 104.22.40.171: seq=4 ttl=37 time=21.577 ms
+64 bytes from 104.22.40.171: seq=5 ttl=37 time=19.869 ms
+64 bytes from 104.22.40.171: seq=6 ttl=37 time=20.383 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 19.514/20.890/21.712 ms
+
+D:\node-netology\ndse9-library>docker start pinger
+pinger
+
+D:\node-netology\ndse9-library>docker ps -a
+CONTAINER ID   IMAGE     COMMAND                  CREATED         STATUS                      PORTS     NAMES
+49e5813f17be   busybox   "ping -c 7 netology.…"   4 minutes ago   Exited (0) 24 seconds ago             pinger
+
+D:\node-netology\ndse9-library>docker logs pinger
+PING netology.ru (104.22.40.171): 56 data bytes
+64 bytes from 104.22.40.171: seq=0 ttl=37 time=19.514 ms
+64 bytes from 104.22.40.171: seq=1 ttl=37 time=21.562 ms
+64 bytes from 104.22.40.171: seq=2 ttl=37 time=21.613 ms
+64 bytes from 104.22.40.171: seq=3 ttl=37 time=21.712 ms
+64 bytes from 104.22.40.171: seq=4 ttl=37 time=21.577 ms
+64 bytes from 104.22.40.171: seq=5 ttl=37 time=19.869 ms
+64 bytes from 104.22.40.171: seq=6 ttl=37 time=20.383 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 19.514/20.890/21.712 ms
+PING netology.ru (104.22.40.171): 56 data bytes
+64 bytes from 104.22.40.171: seq=0 ttl=37 time=18.936 ms
+64 bytes from 104.22.40.171: seq=1 ttl=37 time=21.859 ms
+64 bytes from 104.22.40.171: seq=2 ttl=37 time=20.653 ms
+64 bytes from 104.22.40.171: seq=3 ttl=37 time=19.642 ms
+64 bytes from 104.22.40.171: seq=4 ttl=37 time=21.590 ms
+64 bytes from 104.22.40.171: seq=5 ttl=37 time=19.152 ms
+64 bytes from 104.22.40.171: seq=6 ttl=37 time=21.799 ms
+
+--- netology.ru ping statistics ---
+7 packets transmitted, 7 packets received, 0% packet loss
+round-trip min/avg/max = 18.936/20.518/21.859 ms
+
+D:\node-netology\ndse9-library>docker rm pinger
+pinger
+
+D:\node-netology\ndse9-library>docker rmi busybox
+Untagged: busybox:latest
+Untagged: busybox@sha256:b5cfd4befc119a590ca1a81d6bb0fa1fb19f1fbebd0397f25fae164abe1e8a6a
+Deleted: sha256:ffe9d497c32414b1c5cdad8178a85602ee72453082da2463f1dede592ac7d5af
+Deleted: sha256:64cac9eaf0da6a7ae6519b6c7198929f232324e0822b5e359ee0e27104e2d3ed
