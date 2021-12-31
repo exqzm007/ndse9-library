@@ -3,6 +3,8 @@ const router = express.Router();
 const { v4: uuidv4 } = require('uuid');
 const fileLoaderMiddleware = require("../middlewares/fileLoader");
 const { resolve } = require("path");
+const axios = require("axios");
+const { BASE_COUNTER_API_URL } = require("../config");
 
 const books = [
     {
@@ -72,14 +74,20 @@ router
     })
 
 router
-    .get("/view/:id", (req, res) => {
+    .get("/view/:id", async (req, res) => {
         if (books) {
             const { id } = req.params;
             const book = books.find(x => x.id === id);
-            if (book) {
-                res.render("pages/books/view", { title: book.title || "View a book", book });
-            } else {
-                res.render("pages/404");
+            try {
+                await axios.post(`${BASE_COUNTER_API_URL}counter/${id}/incr`);
+                const views = await axios.get(`${BASE_COUNTER_API_URL}counter/${id}`);
+                if (book) {
+                    res.render("pages/books/view", { title: book.title || "View a book", book, views: views?.data?.views });
+                } else {
+                    res.render("pages/404");
+                }
+            } catch (e) {
+                res.status(500).json({ errmessage: e.message })
             }
         } else {
             res.status(500).json({

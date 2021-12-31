@@ -1,0 +1,25 @@
+version: "3"
+services:
+  store:
+    image: redis
+  main:
+    build: ./app
+    environment:
+      - PORT=3000
+      - COUNTER_API=counter
+      - COUNTER_PORT=3002
+    volumes:
+      - ./app:/app
+    ports:
+      - 80:3000
+  counter:
+    build: ./counter
+    environment:
+      - PORT=3002
+      - REDIS_URL=store
+    volumes:
+      - ./counter:/app
+    ports:
+      - 3002:3002
+    depends_on:
+      - store
