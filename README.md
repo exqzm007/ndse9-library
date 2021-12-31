@@ -14,7 +14,7 @@
   { "_id": ObjectId(ID) },\
   {\
     $set: {\
-      "title": "Updated title",\
+      "authors": "Updated title",\
       "description": "Updated description"\
     }\
   }\
