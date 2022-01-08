@@ -1,9 +1,6 @@
 <%- include("../../layout/layout-start", { title }) %>
 <%- include("../../shared/menu") %>
 
-<% if (views) { %>
-    <p class="mt-5">Total views: <i class="bi bi-eye-fill"></i> <%= views %></p>
-<% } %>
 <h1 class="mb-3 mt-3"><%= title %></h1>
 <%- include("../../shared/books/bookCard", { book }) %>
 

@@ -1,25 +1,39 @@
 version: "3"
 services:
-  store:
-    image: redis
+  mongodb:
+    image: mongo
+    restart: always
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME
+      - MONGO_INITDB_ROOT_PASSWORD
+    volumes:
+      - mongo-db-vol:/data/db
+  mongoadmin:
+    image: mongo-express
+    restart: always
+    environment:
+      - ME_CONFIG_MONGODB_ADMINUSERNAME
+      - ME_CONFIG_MONGODB_ADMINPASSWORD
+      - ME_CONFIG_MONGODB_SERVER=mongodb
+    ports:
+      - 8081:8081
+    depends_on:
+      - mongodb
   main:
-    build: ./app
+    build: .
     environment:
       - PORT=3000
-      - COUNTER_API=counter
-      - COUNTER_PORT=3002
+      - DB_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - DB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - DB_NAME
+      - DB_HOST
     volumes:
-      - ./app:/app
+      - ./:/app
     ports:
       - 80:3000
-  counter:
-    build: ./counter
-    environment:
-      - PORT=3002
-      - REDIS_URL=store
-    volumes:
-      - ./counter:/app
-    ports:
-      - 3002:3002
     depends_on:
-      - store
+      - mongodb
+volumes:
+  mongo-db-vol:
+    name: mongo-db-vol
+    external: true
