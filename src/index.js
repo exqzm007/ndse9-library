@@ -1,10 +1,12 @@
 const mongoose = require("mongoose");
+const { createServer } = require("http");
 const path = require("path");
 const express = require("express");
 const bodyParser = require('body-parser');
 const session = require("express-session");
 const passport = require("./configs/passportCfg");
 const cookieParser = require('cookie-parser');
+const startSocket = require("./configs/sockets");
 
 const errorMiddleware = require("./middlewares/errorMiddleware");
 const { PORT, DB_HOST, DB_NAME, DB_PASSWORD, DB_USERNAME, SESSION_SECRET } = require("./config");
@@ -15,6 +17,7 @@ const bookRouter = require("./routes/books");
 const indexRouter = require("./routes");
 
 const app = express();
+const httpServer = createServer(app);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
@@ -49,7 +52,7 @@ function start() {
         pass: DB_PASSWORD,
         dbName: DB_NAME
       }, () => {
-        app.listen(PORT, () => {
+        httpServer.listen(PORT, () => {
           console.log(`App listening at http://localhost:${PORT}`);
         });
       }
@@ -59,4 +62,5 @@ function start() {
   }
 }
 
+startSocket(httpServer);
 start();

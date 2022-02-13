@@ -6,4 +6,78 @@
     </h1>
     <%- include("../../shared/books/bookCard", { book }) %>
 
+      <div style="max-width: 540px;" class="comments">
+        <% for (const c of book.comments) { %>
+          <div class="card mb-3">
+            <div class="card-body">
+              <h5 class="card-title">
+                <%= c.username %>
+              </h5>
+              <p class="card-text">
+                <%= c.text %>
+              </p>
+              <p class="card-text"><small class="text-muted">
+                  <%= c.date %>
+                </small></p>
+            </div>
+          </div>
+          <% } %>
+      </div>
+
+      <form class="col-md-6 mt-5 form">
+        <% if (user) { %>
+          <input type="hidden" value="<%= user.login %>" class="user" />
+          <% } %>
+            <div class="form-group">
+              <label for="comment">Enter your comment</label>
+              <textarea class="form-control textarea" id="comment" rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mt-3 send">Send</button>
+      </form>
+
+      <script>
+        const bookId = location.pathname.split("/").pop();
+        const socket = io.connect("/", {
+          query: `bookId=${bookId}`,
+          transports: ["websocket"]
+        });
+
+        const form = document.querySelector(".form");
+        const textarea = document.querySelector(".textarea");
+        const userField = document.querySelector(".user");
+        const btn = document.querySelector(".send");
+        const container = document.querySelector(".comments");
+
+        function dataToMarkup(data) {
+          const markup = `
+                <div class="card mb-3">
+                  <div class="card-body">
+                    <h5 class="card-title">${data.username}</h5>
+                    <p class="card-text">${data.text}</p>
+                    <p class="card-text"><small class="text-muted">${data.date}</small></p>
+                  </div>
+                </div>
+              `;
+
+          container.insertAdjacentHTML("beforeend", markup);
+        }
+
+        form.addEventListener("submit", (e) => {
+          e.preventDefault();
+        })
+
+        btn.addEventListener("click", () => {
+          const text = textarea.value;
+          const date = new Date().toISOString();
+          const msgData = {
+            date,
+            text
+          };
+          if (userField) msgData.username = userField.value;
+          socket.emit("book-comment", msgData);
+          textarea.value = "";
+        })
+
+        socket.on("book-comment", dataToMarkup);
+      </script>
       <%- include("../../layout/layout-end") %>

@@ -31,7 +31,24 @@ const bookSchema = new Schema({
     fileBook: {
         type: String,
         required: false
-    }
+    },
+    comments: [
+      {
+        text: {
+          type: String,
+          required: true
+        },
+        date: {
+          type: String,
+          required: true,
+        },
+        username: {
+          type: String,
+          required: false,
+          default: 'Anonymous'
+        }
+      }
+    ]
 })
 
 module.exports = model("Book", bookSchema);
