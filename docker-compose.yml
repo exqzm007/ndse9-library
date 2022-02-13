@@ -27,6 +27,7 @@ services:
       - DB_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
       - DB_NAME
       - DB_HOST
+      - SESSION_SECRET
     volumes:
       - ./:/app
     ports:

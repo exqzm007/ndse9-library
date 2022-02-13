@@ -1,0 +1,25 @@
+<%- include("../../layout/layout-start", { title }) %>
+
+  <h1 class="mt-5 mb-5">
+    <%= title %>
+  </h1>
+  <div class="container">
+    <div class="row">
+      <form class="col-md-6" method="POST">
+        <div class="mb-3">
+          <label for="login" class="form-label">Login</label>
+          <input name="login" type="text" class="form-control" id="login" required>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input name="password" type="password" class="form-control" id="password" required>
+        </div>
+        <p class="form-text">
+          Do you have no account yet? Go to <a href="/user/signup">Sign up</a>
+        </p>
+        <button type="submit" class="btn btn-primary">Submit</button>
+      </form>
+    </div>
+  </div>
+
+  <%- include("../../layout/layout-end") %>

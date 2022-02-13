@@ -1,0 +1,16 @@
+<%- include("../../layout/layout-start", { title }) %>
+  <%- include("../../shared/menu", { user: user }) %>
+
+    <h1 class="text-center mt-5 mb-5">
+      <%= title %>
+    </h1>
+    <ul class="list-group list-group-flush">
+      <li class="list-group-item">User name: <%= user.name %>
+      </li>
+      <li class="list-group-item">User surname: <%= user.surname %>
+      </li>
+      <li class="list-group-item">User login: <%= user.login %>
+      </li>
+    </ul>
+
+    <%- include("../../layout/layout-end") %>

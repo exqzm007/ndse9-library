@@ -1,14 +1,12 @@
 const express = require("express");
 const router = express.Router();
-const { v4: uuidv4 } = require('uuid');
 const fileLoaderMiddleware = require("../middlewares/fileLoader");
-const { resolve } = require("path");
 const Book = require("../models/Book");
 
 router.get("/", async (req, res) => {
     try {
         const books = await Book.find();
-        res.render("pages/books/index", { title: "Books", books });
+        res.render("pages/books/index", { title: "Books", books, user: req.user });
     } catch (e) {
         res.status(500).json({
             error: "An error occured while getting books",
@@ -19,7 +17,7 @@ router.get("/", async (req, res) => {
 
 router
     .get("/create", (req, res) => {
-        res.render("pages/books/create", { title: "Create a book", book: {} });
+        res.render("pages/books/create", { title: "Create a book", book: {}, user: req.user });
     })
     .post("/create", fileLoaderMiddleware.single("fileBook"), async (req, res) => {
         try {
@@ -49,9 +47,9 @@ router
             const { id } = req.params;
             const book = await Book.findById(id);
             if (book) {
-                res.render("pages/books/view", { title: book.title || "View a book", book });
+                res.render("pages/books/view", { title: book.title || "View a book", book, user: req.user });
             } else {
-                res.render("pages/404");
+                res.render("pages/404", { user: req.user });
             }
         } catch (e) {
             res.status(500).json({
@@ -65,9 +63,9 @@ router
             const { id } = req.params;
             const book = await Book.findById(id);
             if (book) {
-                res.render("pages/books/update", { title: book.title || "Update a book", book });
+                res.render("pages/books/update", { title: book.title || "Update a book", book, user: req.user });
             } else {
-                res.render("pages/404");
+                res.render("pages/404", {user: req.user});
             }
         } catch (e) {
             res.status(500).json({
@@ -92,7 +90,7 @@ router
                 await book.save();
                 res.redirect("/books");
             } else {
-                res.render("pages/404");
+                res.render("pages/404", { user: req.user });
             }
         } catch (e) {
             res.status(500).json({

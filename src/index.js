@@ -2,8 +2,12 @@ const mongoose = require("mongoose");
 const path = require("path");
 const express = require("express");
 const bodyParser = require('body-parser');
+const session = require("express-session");
+const passport = require("./configs/passportCfg");
+const cookieParser = require('cookie-parser');
+
 const errorMiddleware = require("./middlewares/errorMiddleware");
-const { PORT, DB_HOST, DB_NAME, DB_PASSWORD, DB_USERNAME } = require("./config");
+const { PORT, DB_HOST, DB_NAME, DB_PASSWORD, DB_USERNAME, SESSION_SECRET } = require("./config");
 
 // routes
 const userRouter = require("./routes/user");
@@ -16,8 +20,21 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));
 
 app.use(express.static(path.join(__dirname, "/uploads")));
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+app.use(cookieParser());
+app.use(session({
+  secret: SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use((req, res, next) => {
+  console.log("REQ SESSION", req.session);
+  console.log("REQ USER", req.user);
+  next();
+})
 
 app.use("/", indexRouter);
 app.use("/user", userRouter);

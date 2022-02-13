@@ -1,7 +1,9 @@
 <%- include("../../layout/layout-start", { title }) %>
-<%- include("../../shared/menu") %>
+  <%- include("../../shared/menu", { user: user }) %>
 
-<h1 class="mb-3 mt-3"><%= title %></h1>
-<%- include("../../shared/books/bookCard", { book }) %>
+    <h1 class="mb-3 mt-3">
+      <%= title %>
+    </h1>
+    <%- include("../../shared/books/bookCard", { book }) %>
 
-<%- include("../../layout/layout-end") %>
+      <%- include("../../layout/layout-end") %>
